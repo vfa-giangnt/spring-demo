@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService {
+    
     @Autowired
     CustomerRepository customerRepo;
     
@@ -21,6 +22,14 @@ public class CustomerService {
     }
     
     public ServiceResponse findById(int id) {
+        ServiceResponse result = new ServiceResponse();
+        Customer customer = customerRepo.findById(id).orElse(null);
+        result.setData(customer);
+        
+        return result;
+    }
+    
+    public ServiceResponse findById1(int id) {
         ServiceResponse result = new ServiceResponse();
         Customer customer = customerRepo.findById(id).orElse(null);
         result.setData(customer);

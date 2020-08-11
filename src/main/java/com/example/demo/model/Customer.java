@@ -14,12 +14,15 @@ public class Customer {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
     @Column(name = "name")
     private String name;
+    
     @Column(name = "address")
     private String address;
-    // getter - setter
     
+    @Column(name = "email")
+    private String email;
     
     public int getId() {
         return id;
@@ -43,5 +46,13 @@ public class Customer {
     
     public void setAddress(String address) {
         this.address = address;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
