@@ -1,19 +1,22 @@
 package com.example.demo.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "customer")
 public class Customer {
+    
     @Id
+    @GeneratedValue(generator = "CustomerIdGenerator")
+    @GenericGenerator(name = "CustomerIdGenerator", strategy = "com.example.demo.generator.CustomerIdGenerator")
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
     
     @Column(name = "name")
     private String name;
@@ -24,11 +27,11 @@ public class Customer {
     @Column(name = "email")
     private String email;
     
-    public int getId() {
+    public String getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
     
@@ -54,5 +57,15 @@ public class Customer {
     
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    @Override
+    public String toString() {
+        return "Customer{" +
+            "id='" + id + '\'' +
+            ", name='" + name + '\'' +
+            ", address='" + address + '\'' +
+            ", email='" + email + '\'' +
+            '}';
     }
 }

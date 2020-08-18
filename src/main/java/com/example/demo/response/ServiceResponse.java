@@ -6,7 +6,7 @@ public class ServiceResponse {
     private Object data;
     
     public enum Status {
-        SUCCESS, FAILED, INTERNAL_ERROR;
+        SUCCESS, FAILED, INTERNAL_ERROR, NOT_FOUND;
     }
     
     public Status getStatus() {

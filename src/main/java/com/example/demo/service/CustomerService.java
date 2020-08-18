@@ -7,6 +7,9 @@ import com.example.demo.response.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CustomerService {
     
@@ -16,22 +19,42 @@ public class CustomerService {
     // Find All
     public ServiceResponse findAll() {
         ServiceResponse result = new ServiceResponse();
+        result.setMessage("success");
         result.setData(customerRepo.findAll());
         
         return result;
     }
     
-    public ServiceResponse findById(int id) {
+    // Find All Emails
+    public ServiceResponse findAllEmails() {
         ServiceResponse result = new ServiceResponse();
-        Customer customer = customerRepo.findById(id).orElse(null);
-        result.setData(customer);
+        result.setMessage("success");
+        
+        List<Customer> customers = customerRepo.findAll();
+        
+        List<String> emails = new ArrayList<>();
+        
+        for (Customer c : customers) {
+            emails.add(c.getEmail());
+        }
+        result.setData(emails);
         
         return result;
     }
     
-    public ServiceResponse findById1(int id) {
+    public ServiceResponse findById(String id) {
         ServiceResponse result = new ServiceResponse();
         Customer customer = customerRepo.findById(id).orElse(null);
+        result.setData(customer);
+        result.setMessage("success");
+        
+        return result;
+    }
+    
+    public ServiceResponse findById1(String id) {
+        ServiceResponse result = new ServiceResponse();
+        Customer customer = customerRepo.findById(id).orElse(null);
+        result.setMessage("success");
         result.setData(customer);
         
         return result;
@@ -39,6 +62,7 @@ public class CustomerService {
     
     public ServiceResponse create(Customer customer) {
         ServiceResponse result = new ServiceResponse();
+        result.setMessage("success");
         result.setData(customerRepo.save(customer));
         
         return result;
@@ -53,11 +77,10 @@ public class CustomerService {
         } else {
             result.setData(customerRepo.save(customer));
         }
-        
         return result;
     }
     
-    public ServiceResponse delete(int id) {
+    public ServiceResponse delete(String id) {
         ServiceResponse result = new ServiceResponse();
         Customer customer = customerRepo.findById(id).orElse(null);
         
