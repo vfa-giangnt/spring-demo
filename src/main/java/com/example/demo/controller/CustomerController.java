@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
+
 @RestController
 @RequestMapping("/api/v1")
 public class CustomerController {
@@ -28,6 +30,11 @@ public class CustomerController {
     @GetMapping("/customers")
     public ResponseEntity<ServiceResponse> findAllCustomer() {
         return new ResponseEntity<>(customerService.findAll(), HttpStatus.OK);
+    }
+    
+    @GetMapping("/send-mails")
+    public ResponseEntity<ServiceResponse> sendMails() {
+        return new ResponseEntity<>(customerService.sendMails(), HttpStatus.OK);
     }
     
     @GetMapping("/mails")
