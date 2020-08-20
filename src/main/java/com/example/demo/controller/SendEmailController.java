@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Customer;
 import com.example.demo.repository.CustomerRepository;
-import com.example.demo.service.CustomerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,62 +35,61 @@ public class SendEmailController {
     @RequestMapping(value = "/send-email")
     @ResponseBody
     public String sendAnEmail() throws MessagingException {
-        
-//        sendEmail();
+        sendEmail();
         return "Email sent successfully!";
     }
     
-//    public void sendEmail() throws MessagingException {
-//        Properties props = new Properties();
-//        props.put("mail.smtp.auth", "true");
-//        props.put("mail.smtp.starttls.enable", "true");
-//        props.put("mail.smtp.host", "smtp.gmail.com");
-//        props.put("mail.smtp.port", "587");
-//
-//        Session session = Session.getInstance(props, new Authenticator() {
-//            @Override
-//            protected PasswordAuthentication getPasswordAuthentication() {
-//                return new PasswordAuthentication("giangnguyen.developer@gmail.com", "longkhung");
-//            }
-//        });
-//
-//        List<String> listEmails = new ArrayList<>();
-//
-//        List<Customer> customers = customerRepo.findAll();
-//
-//        for (Customer c : customers) {
-//            listEmails.add(c.getEmail());
-//        }
-//
-//        Transport transport = session.getTransport();
-//        transport.connect();
-//
-//        for (String email : listEmails) {
-//            try {
-//                // Create session to send message
-//                Message message = new MimeMessage(session);
-//
-//                // Set sending email address
-//                message.setFrom(new InternetAddress("giangnguyen.developer@gmail.com", false));
-//
-//                // Set received email address
-//                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
-//                message.setSubject("[Testing Email] This is a test email!");
-//
-//                message.setContent("This is a testing purpose email sending from giangnguyen.developer@gmail.com via smtp google hosting. Sorry for any inconvenience and disturb!", "text/html");
-//                message.setSentDate(new Date());
-//
-//                MimeBodyPart msgBodyPart = new MimeBodyPart();
-//                msgBodyPart.setContent("This is a testing purpose email sending from giangnguyen.developer@gmail.com via smtp google hosting. Sorry for any inconvenience and disturb!", "text/html");
-//
-//                Multipart multipart = new MimeMultipart();
-//                multipart.addBodyPart(msgBodyPart);
-//
-//                transport.send(message);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        transport.close();
-//    }
+    public void sendEmail() throws MessagingException {
+        
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("giangnguyen.developer@gmail.com", "longkhung");
+            }
+        });
+        
+        List<String> listEmails = new ArrayList<>();
+        List<Customer> customers = customerRepo.findAll();
+        
+        for (Customer c : customers) {
+            listEmails.add(c.getEmail());
+        }
+        
+        Transport transport = session.getTransport();
+        transport.connect();
+        
+        for (String email : listEmails) {
+            try {
+                Message message = new MimeMessage(session);
+                
+                // Set sending email address
+                message.setFrom(new InternetAddress("giangnguyen.developer@gmail.com", false));
+                
+                // Set received email address
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
+                message.setSubject("[Testing Email] This is a test email!");
+                
+                message.setContent("This is a testing purpose email sending from giangnguyen.developer@gmail.com via smtp google hosting. Sorry for any inconvenience and disturb!", "text/html");
+                message.setSentDate(new Date());
+                
+                MimeBodyPart msgBodyPart = new MimeBodyPart();
+                msgBodyPart.setContent("This is a testing purpose email sending from giangnguyen.developer@gmail.com via smtp google hosting. Sorry for any inconvenience and disturb!", "text/html");
+                
+                Multipart multipart = new MimeMultipart();
+                multipart.addBodyPart(msgBodyPart);
+                
+                transport.send(message);
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        transport.close();
+    }
 }

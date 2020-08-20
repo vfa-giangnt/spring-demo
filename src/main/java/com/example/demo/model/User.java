@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-public class Employee {
+public class User {
     private int id;
     private String name;
     

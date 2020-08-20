@@ -32,6 +32,7 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.findAll(), HttpStatus.OK);
     }
     
+    /* new - processing */
     @GetMapping("/send-mails")
     public ResponseEntity<ServiceResponse> sendMails() {
         return new ResponseEntity<>(customerService.sendMails(), HttpStatus.OK);

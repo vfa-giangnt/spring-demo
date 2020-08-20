@@ -19,6 +19,7 @@ import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -48,31 +49,37 @@ public class CustomerService {
         
         List<String> emails = new ArrayList<>();
         
-        String message = ""
+        List<String> message = new ArrayList<>();
         
         for (Customer c : customers) {
             emails.add(c.getEmail());
         }
         
         try {
-            sendEmail(emails);
+            message = sendEmail(emails);
         } catch (Exception e) {
             if (e instanceof MessagingException) {
-                result.setData("There are message exception occured.");
+                message.add("Message exception occurred.");
+            } else if (e instanceof AddressException) {
+                result.setMessage("ERROR");
+                message.add("Address exception occurred.");
             }
         }
         
-        result.setData("");
+        result.setData(message);
         
         return result;
     }
     
-    public void sendEmail(List<String> emails) throws MessagingException {
+    public List<String> sendEmail(List<String> emails) throws MessagingException {
+        
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
+        
+        List<String> status = new ArrayList<>();
         
         Session session = Session.getInstance(props, new Authenticator() {
             @Override
@@ -106,11 +113,16 @@ public class CustomerService {
                 multipart.addBodyPart(msgBodyPart);
                 
                 transport.send(message);
+                
+                status.add("Success sent mail to " + email);
             } catch (Exception e) {
                 e.printStackTrace();
+                status.add(email + ": " + e.getMessage());
             }
         }
         transport.close();
+        
+        return status;
     }
     
     // Find All Emails

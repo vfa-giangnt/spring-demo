@@ -14,6 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class HandleErrorController implements ErrorController {
     
+    /**
+     * Generally handle error for APIs
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping("/error")
     public ResponseEntity<ServiceResponse> handleError(HttpServletRequest request) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
@@ -27,6 +33,7 @@ public class HandleErrorController implements ErrorController {
         if (status != null) {
             int statusCode = Integer.parseInt(status.toString());
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
+                
                 result.setStatus(ServiceResponse.Status.NOT_FOUND);
                 result.setMessage("Not Found Error (from Gaunau)");
                 result.setData(null);
@@ -34,6 +41,7 @@ public class HandleErrorController implements ErrorController {
                 return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
                 
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+                
                 result.setStatus(ServiceResponse.Status.INTERNAL_ERROR);
                 result.setMessage("Internal Server Error. (from Gaunau)");
                 result.setData(null);
@@ -41,8 +49,7 @@ public class HandleErrorController implements ErrorController {
                 return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        // handle error type
-        
+        // Handle error type
         return responseEntity;
     }
     
