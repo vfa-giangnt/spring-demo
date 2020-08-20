@@ -2,8 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Customer;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.response.ServiceResponse;
+import com.example.demo.service.CustomerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +36,22 @@ public class SendEmailController {
     
     @Autowired
     CustomerRepository customerRepo;
+    
+    @Autowired
+    CustomerService customerService;
+    
+    /* new - processing */
+    
+    @GetMapping("/send-mails")
+    public ResponseEntity<ServiceResponse> sendMails() {
+        ServiceResponse sendMailResult = customerService.sendMails();
+        return new ResponseEntity<>(sendMailResult, HttpStatus.OK);
+    }
+    
+    @GetMapping("/mails")
+    public ResponseEntity<ServiceResponse> findAllMail() {
+        return new ResponseEntity<>(customerService.findAllEmails(), HttpStatus.OK);
+    }
     
     @RequestMapping(value = "/send-email")
     @ResponseBody

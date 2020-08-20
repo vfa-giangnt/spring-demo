@@ -41,7 +41,6 @@ public class HandleErrorController implements ErrorController {
                 return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
                 
             } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                
                 result.setStatus(ServiceResponse.Status.INTERNAL_ERROR);
                 result.setMessage("Internal Server Error. (from Gaunau)");
                 result.setData(null);

@@ -139,7 +139,6 @@ public class CustomerService {
             emails.add(c.getEmail());
         }
         result.setData(emails);
-        
         return result;
     }
     

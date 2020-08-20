@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.mail.MessagingException;
-
 @RestController
 @RequestMapping("/api/v1")
 public class CustomerController {
@@ -32,17 +30,6 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.findAll(), HttpStatus.OK);
     }
     
-    /* new - processing */
-    @GetMapping("/send-mails")
-    public ResponseEntity<ServiceResponse> sendMails() {
-        return new ResponseEntity<>(customerService.sendMails(), HttpStatus.OK);
-    }
-    
-    @GetMapping("/mails")
-    public ResponseEntity<ServiceResponse> findAllMail() {
-        return new ResponseEntity<>(customerService.findAllEmails(), HttpStatus.OK);
-    }
-    
     /* ---------------- GET CUSTOMER BY ID ------------------------ */
     @GetMapping("/customers/{id}")
     public ResponseEntity<ServiceResponse> findById(@PathVariable String id) {
@@ -51,7 +38,9 @@ public class CustomerController {
     
     @GetMapping("/customers/search")
     public ResponseEntity<ServiceResponse> findById1(@RequestBody FindCustomerRequest request) {
-        return new ResponseEntity<>(customerService.findById(request.getId()), HttpStatus.OK);
+        String id = request.getId();
+        return new ResponseEntity<>(customerService.findById(id),
+            HttpStatus.OK);
     }
     
     /* ---------------- CREATE NEW CUSTOMER ------------------------ */
