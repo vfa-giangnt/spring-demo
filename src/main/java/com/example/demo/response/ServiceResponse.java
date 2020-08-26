@@ -4,6 +4,8 @@ public class ServiceResponse {
     private Status status = Status.SUCCESS;
     private String message;
     private Object data;
+    private String errorCode;
+    private String key;
     
     public enum Status {
         SUCCESS, FAILED, INTERNAL_ERROR, NOT_FOUND;

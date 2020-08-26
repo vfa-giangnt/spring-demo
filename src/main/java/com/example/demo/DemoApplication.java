@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.property.FileStorageProperties;
 import com.example.demo.storage.StorageProperties;
 import com.example.demo.storage.StorageService;
 
@@ -12,7 +13,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@EnableConfigurationProperties(StorageProperties.class)
+@EnableConfigurationProperties({StorageProperties.class, FileStorageProperties.class})
 public class DemoApplication {
     
     private static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);

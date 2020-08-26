@@ -19,9 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -29,26 +26,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class FileUploadController {
+public class FileUploadRestController {
     private final StorageService storageService;
     
     @Autowired
-    public FileUploadController(StorageService storageService) {
+    public FileUploadRestController(StorageService storageService) {
         this.storageService = storageService;
     }
     
     @GetMapping("/upload-file")
     public String listUploadedFiles(Model model) throws IOException {
-        model.addAttribute("files", storageService.loadAll().map(
-            path -> MvcUriComponentsBuilder
-                .fromMethodName(FileUploadController.class,
-                    "serveFile",
-                    path
-                        .getFileName()
-                        .toString())
-                .build()
-                .toUri()
-                .toString())
+        model.addAttribute("files", storageService.loadAll().map(path -> MvcUriComponentsBuilder.fromMethodName(
+            FileUploadRestController.class,
+            "serveFile",
+            path.getFileName().toString()).build().toUri().toString())
             .collect(Collectors.toList()));
         
         return "uploadForm";
